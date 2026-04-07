@@ -1,0 +1,265 @@
+:root {
+    --bg-color: #0b0b0f;
+    --text-color: #f1f1f1;
+    --accent: #5e5ce6;
+    --glass-bg: rgba(25, 25, 30, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --hover-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(94, 92, 230, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+    padding: 4rem 2rem 2rem;
+    width: 100%;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, #999);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    color: #888;
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: #bbb;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.tab-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background-color: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(94, 92, 230, 0.4);
+}
+
+/* Gallery Grid */
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1300px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.gallery-item::before {
+    content: 'Resim Yüklenemedi';
+    position: absolute;
+    color: #555;
+    font-size: 0.95rem;
+    z-index: 0;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--hover-shadow);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+/* Lightbox Styles */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 5, 8, 0.92);
+    backdrop-filter: blur(15px);
+}
+
+.lightbox-content {
+    position: relative;
+    z-index: 1001;
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-wrapper {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s ease;
+}
+
+.lightbox.active .lightbox-img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Buttons */
+.nav-btn, .close-btn {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    z-index: 1002;
+    outline: none;
+}
+
+.nav-btn:hover, .close-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.close-btn {
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+    position: fixed;
+}
+
+.nav-btn {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+}
+
+.nav-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn { left: -80px; }
+.next-btn { right: -80px; }
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+    .prev-btn { left: 20px; }
+    .next-btn { right: 20px; }
+}
+
+@media (max-width: 768px) {
+    header h1 { font-size: 2.5rem; }
+    .gallery-container { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); padding: 1.5rem; }
+    .nav-btn { width: 50px; height: 50px; font-size: 20px; }
+    .close-btn { width: 44px; height: 44px; font-size: 24px; top: 15px; right: 15px; }
+    .tab-btn { padding: 10px 18px; font-size: 0.9rem; }
+}
